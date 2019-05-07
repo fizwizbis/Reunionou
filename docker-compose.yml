@@ -1,0 +1,63 @@
+version: '3'
+services:
+  #PHP Service
+  journey_app:
+    build:
+      context: .
+      dockerfile: dockerElement/Dockerfile
+    container_name: journey_app
+    restart: unless-stopped
+    tty: true
+    environment:
+      SERVICE_NAME: app
+      SERVICE_TAGS: dev
+    working_dir: /var/www
+    volumes:
+      - ./application/:/var/www
+      - ./dockerElement/php/local.ini:/usr/local/etc/php/conf.d/local.ini
+    networks:
+      - app-network
+
+  #Nginx Service
+  journey_webserver:
+    image: nginx:alpine
+    container_name: journey_webserver
+    restart: unless-stopped
+    tty: true
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./application/:/var/www
+      - ./dockerElement/nginx/conf.d:/etc/nginx/conf.d
+    networks:
+      - app-network
+  
+  #MySQL Service
+  journey_db:
+    image: mysql:8
+    container_name: journey_db
+    restart: unless-stopped
+    tty: true
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_DATABASE: laravel
+      MYSQL_ROOT_PASSWORD: dilJi0AR
+      SERVICE_TAGS: dev
+      SERVICE_NAME: mysql
+    volumes:
+      - dbdata:/var/lib/mysql-files/
+      - ./dockerElement/mysql/my.cnf:/etc/mysql/my.cnf
+    networks: 
+      - app-network
+
+#Docker networks
+networks:
+  app-network:
+    driver: bridge
+
+#Volumes
+volumes:
+  dbdata:
+    driver: local
