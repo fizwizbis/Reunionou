@@ -4,7 +4,7 @@ services:
   journey_app:
     build:
       context: .
-      dockerfile: dockerElement/Dockerfile
+      dockerfile: docker/Dockerfile
     container_name: journey_app
     restart: unless-stopped
     tty: true
@@ -13,8 +13,8 @@ services:
       SERVICE_TAGS: dev
     working_dir: /var/www
     volumes:
-      - ./application/:/var/www
-      - ./dockerElement/php/local.ini:/usr/local/etc/php/conf.d/local.ini
+      - ./src/:/var/www
+      - ./docker/php/local.ini:/usr/local/etc/php/conf.d/local.ini
     networks:
       - app-network
 
@@ -28,8 +28,8 @@ services:
       - "80:80"
       - "443:443"
     volumes:
-      - ./application/:/var/www
-      - ./dockerElement/nginx/conf.d:/etc/nginx/conf.d
+      - ./src/:/var/www
+      - ./docker/nginx/conf.d:/etc/nginx/conf.d
     networks:
       - app-network
   
@@ -48,7 +48,7 @@ services:
       SERVICE_NAME: mysql
     volumes:
       - dbdata:/var/lib/mysql-files/
-      - ./dockerElement/mysql/my.cnf:/etc/mysql/my.cnf
+      - ./docker/mysql/my.cnf:/etc/mysql/my.cnf
     networks: 
       - app-network
 
