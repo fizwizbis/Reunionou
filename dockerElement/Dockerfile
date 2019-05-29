@@ -1,6 +1,6 @@
 FROM php:7.3-fpm
 
-COPY application/composer.lock application/composer.json /var/www/
+COPY application/composer.lock /var/www
 
 WORKDIR /var/www
 
