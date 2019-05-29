@@ -43,6 +43,7 @@ services:
       - "3306:3306"
     environment:
       MYSQL_DATABASE: laravel
+      MYSQL_USER: appuser
       MYSQL_ROOT_PASSWORD: dilJi0AR
       SERVICE_TAGS: dev
       SERVICE_NAME: mysql
