@@ -1,11 +1,11 @@
 version: '3'
 services:
   #PHP Service
-  journey_app:
+  reunionou_app:
     build:
       context: .
       dockerfile: docker/Dockerfile
-    container_name: journey_app
+    container_name: reunionou_app
     restart: unless-stopped
     tty: true
     environment:
@@ -19,9 +19,9 @@ services:
       - app-network
 
   #Nginx Service
-  journey_webserver:
+  reunionou_webserver:
     image: nginx:alpine
-    container_name: journey_webserver
+    container_name: reunionou_webserver
     restart: unless-stopped
     tty: true
     ports:
@@ -34,9 +34,9 @@ services:
       - app-network
   
   #MySQL Service
-  journey_db:
+  reunionou_db:
     image: mysql:8
-    container_name: journey_db
+    container_name: reunionou_db
     restart: unless-stopped
     tty: true
     ports:
