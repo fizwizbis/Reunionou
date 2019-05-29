@@ -1,11 +1,11 @@
 version: '3'
 services:
   #PHP Service
-  journey_app:
+  reunionou_app:
     build:
       context: .
-      dockerfile: dockerElement/Dockerfile
-    container_name: journey_app
+      dockerfile: docker/Dockerfile
+    container_name: reunionou_app
     restart: unless-stopped
     tty: true
     environment:
@@ -13,30 +13,30 @@ services:
       SERVICE_TAGS: dev
     working_dir: /var/www
     volumes:
-      - ./application/:/var/www
-      - ./dockerElement/php/local.ini:/usr/local/etc/php/conf.d/local.ini
+      - ./src/:/var/www
+      - ./docker/php/local.ini:/usr/local/etc/php/conf.d/local.ini
     networks:
       - app-network
 
   #Nginx Service
-  journey_webserver:
+  reunionou_webserver:
     image: nginx:alpine
-    container_name: journey_webserver
+    container_name: reunionou_webserver
     restart: unless-stopped
     tty: true
     ports:
       - "80:80"
       - "443:443"
     volumes:
-      - ./application/:/var/www
-      - ./dockerElement/nginx/conf.d:/etc/nginx/conf.d
+      - ./src/:/var/www
+      - ./docker/nginx/conf.d:/etc/nginx/conf.d
     networks:
       - app-network
   
   #MySQL Service
-  journey_db:
+  reunionou_db:
     image: mysql:8
-    container_name: journey_db
+    container_name: reunionou_db
     restart: unless-stopped
     tty: true
     ports:
@@ -48,7 +48,7 @@ services:
       SERVICE_NAME: mysql
     volumes:
       - dbdata:/var/lib/mysql-files/
-      - ./dockerElement/mysql/my.cnf:/etc/mysql/my.cnf
+      - ./docker/mysql/my.cnf:/etc/mysql/my.cnf
     networks: 
       - app-network
 
