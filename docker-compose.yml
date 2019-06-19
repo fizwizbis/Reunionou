@@ -1,63 +1,23 @@
 version: '3'
 services:
-  #PHP Service
   reunionou_app:
-    build:
-      context: .
-      dockerfile: docker/Dockerfile
-    container_name: reunionou_app
+    build: docker
     restart: unless-stopped
-    tty: true
-    environment:
-      SERVICE_NAME: app
-      SERVICE_TAGS: dev
-    working_dir: /var/www
     volumes:
-      - ./src/:/var/www
-      - ./docker/php/local.ini:/usr/local/etc/php/conf.d/local.ini
-    networks:
-      - app-network
-
-  #Nginx Service
-  reunionou_webserver:
-    image: nginx:alpine
-    container_name: reunionou_webserver
-    restart: unless-stopped
-    tty: true
+      - ./src/:/app
     ports:
-      - "80:80"
-      - "443:443"
-    volumes:
-      - ./src/:/var/www
-      - ./docker/nginx/conf.d:/etc/nginx/conf.d
-    networks:
-      - app-network
-  
-  #MySQL Service
+      - 80:80
+
   reunionou_db:
     image: mysql:8
-    container_name: reunionou_db
     restart: unless-stopped
-    tty: true
     ports:
-      - "3306:3306"
+      - 3306:3306
     environment:
       MYSQL_DATABASE: laravel
       MYSQL_ROOT_PASSWORD: dilJi0AR
-      SERVICE_TAGS: dev
-      SERVICE_NAME: mysql
+      MYSQL_USER: appuser
+      MYSQL_PASSWORD: dilJi0AR
     volumes:
-      - dbdata:/var/lib/mysql-files/
+      - .dbdata:/var/lib/mysql-files/
       - ./docker/mysql/my.cnf:/etc/mysql/my.cnf
-    networks: 
-      - app-network
-
-#Docker networks
-networks:
-  app-network:
-    driver: bridge
-
-#Volumes
-volumes:
-  dbdata:
-    driver: local
