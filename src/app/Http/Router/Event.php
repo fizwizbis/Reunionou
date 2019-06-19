@@ -9,7 +9,7 @@ class Event implements BaseRouter
 {
     public static function routes()
     {
-        //Route::get('/event', 'EventController@index')->name('eventIndex');
-        //Route::get('/dashboard/event', 'EventController@manage')->name('eventManage');
+        Route::get('/event', 'EventController@index')->name('eventIndex');
+        Route::get('/event/{id}', 'EventController@detail')->name('eventDetail');
     }
 }
