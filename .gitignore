@@ -11,3 +11,5 @@ storage/*.key
 **/Homestead.yaml
 **npm-debug.log
 **yarn-error.log
+src/ide_helper.php
+src/phpstorm.meta.php

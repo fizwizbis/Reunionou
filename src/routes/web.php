@@ -15,4 +15,6 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Auth::routes();
+App\Http\Router\Event::routes();
+
+App\Http\Router\Auth::routes();
