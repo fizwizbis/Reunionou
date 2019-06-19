@@ -3,9 +3,20 @@
 @import url('https://fonts.googleapis.com/css?family=Nunito');
 
 //Bulma
+@import "variables";
 @import "node_modules/bulma/bulma";
 
-.navbar-laravel {
-  background-color: #fff;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
+$flex-alignements: ('start': 'flex-start', 'center': 'center', 'end': 'flex-end');
+@each $name, $value in $flex-alignements {
+  .align-items-#{$name} {
+    align-items: #{$value}!important;
+  }
+  .justify-content-#{$name} {
+    justify-content: #{$value}!important;
+  }
+}
+
+.card {
+  border-radius: $radius-large;
+  box-shadow: $box-shadow-light;
 }
