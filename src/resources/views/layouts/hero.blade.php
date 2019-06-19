@@ -12,7 +12,7 @@
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}" defer></script>
 
-    <!-- Fonts -->
+<!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet" type="text/css">
 
@@ -20,13 +20,15 @@
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 </head>
 <body>
-    <div id="app">
-        <header class="header">
+<div id="app">
+    <main class="hero is-fullheight is-primary is-bold">
+        <div class="hero-head">
             @include('layouts.navbar')
-        </header>
-        <main class="section">
+        </div>
+        <div class="hero-body">
             @yield('content')
-        </main>
-    </div>
+        </div>
+    </main>
+</div>
 </body>
 </html>
