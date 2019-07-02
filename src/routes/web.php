@@ -23,3 +23,32 @@ App\Http\Router\Auth::routes();
 Route::get('/chat', 'ChatsController@index');
 Route::get('messages', 'ChatsController@fetch');
 Route::post('messages', 'ChatsController@send');
+
+Route::prefix('todo')->name('todo')->group(function () {
+    Route::get('', 'TodoController@index')->name('.index');
+    Route::match(['GET', 'POST'], 'create', 'TodoController@create')->name('.create');
+
+    Route::prefix('{todo}')->group(function () {
+        Route::get('', 'TodoController@show')->name('.show');
+        Route::get('delete', 'TodoController@destroy')->name('.destroy');
+        Route::match(['GET', 'POST'], 'edit', 'TodoController@update')->name('.update');
+
+        Route::prefix('elements')->name('.elements')->group(function () {
+            Route::post('add', 'TodoElementController@create')->name('.add');
+
+            Route::prefix('{element}')->group(function () {
+                Route::post('toggle', 'TodoElementController@toggle')->name('.toggle');
+                Route::get('delete', 'TodoElementController@destroy')->name('.destroy');
+            });
+        });
+    });
+});
+
+
+//Route::get('todo', 'TodoController@index');
+//Route::post('todo', 'TodoController@create');
+//Route::get('todo/{todo}', 'TodoController@show');
+//Route::post('todo/{todo}', 'TodoController@edit');
+//Route::delete('todo/{todo}', 'TodoController@destroy');
+
+Auth::routes();
