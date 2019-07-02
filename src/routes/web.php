@@ -44,11 +44,4 @@ Route::prefix('todo')->name('todo')->group(function () {
     });
 });
 
-
-//Route::get('todo', 'TodoController@index');
-//Route::post('todo', 'TodoController@create');
-//Route::get('todo/{todo}', 'TodoController@show');
-//Route::post('todo/{todo}', 'TodoController@edit');
-//Route::delete('todo/{todo}', 'TodoController@destroy');
-
 Auth::routes();
