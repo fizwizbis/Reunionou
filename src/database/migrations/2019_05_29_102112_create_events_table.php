@@ -17,16 +17,25 @@ class CreateEventsTable extends Migration
             $table->uuid('id');
             $table->char('title', 255);
             $table->text('description');
-            $table->dateTime('date');
+            $table->timestamp('date')->useCurrent();
             $table->char('token', 16);
             $table->unsignedBigInteger('author');
             $table->char('address', 255);
             $table->boolean('public');
+            $table->timestamps();
 
             $table->primary('id');
             $table->unique('token');
 
             $table->foreign('author')->references('id')->on('users');
+        });
+
+        Schema::create('users_events', function (Blueprint $table) {
+            $table->unsignedBigInteger('user_id');
+            $table->uuid('event_id');
+
+            $table->foreign('user_id')->references('id')->on('users');
+            $table->foreign('event_id')->references('id')->on('events');
         });
     }
 
@@ -37,6 +46,7 @@ class CreateEventsTable extends Migration
      */
     public function down()
     {
+        Schema::dropIfExists('users_events');
         Schema::dropIfExists('events');
     }
 }

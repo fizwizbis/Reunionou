@@ -9,7 +9,11 @@ class Event implements BaseRouter
 {
     public static function routes()
     {
-        Route::get('/event', 'EventController@index')->name('eventIndex');
-        Route::get('/event/{id}', 'EventController@detail')->name('eventDetail');
+        Route::group(['middleware' => 'auth', 'prefix' => 'event'], function() {
+            Route::get('/', 'EventController@index')->name('eventIndex');
+            Route::post('/create', 'EventController@create')->name('eventCreate');
+            Route::get('/create', 'EventController@createForm')->name('eventCreateForm');
+            Route::get('/{id}', 'EventController@detail')->name('eventDetail');
+        });
     }
 }
