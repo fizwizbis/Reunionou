@@ -16,4 +16,6 @@ Route::get('/', function () {
 });
 Route::get('/home', 'HomeController@index')->name('home');
 
+App\Http\Router\Event::routes();
+App\Http\Router\Profil::routes();
 App\Http\Router\Auth::routes();
