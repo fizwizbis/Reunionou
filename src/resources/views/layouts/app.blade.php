@@ -22,14 +22,14 @@
 
 </head>
 <body>
-    <div id="app">
-        <header class="header">
-            @include('layouts.navbar')
-        </header>
-        <main class="section">
-            @yield('content')
-        </main>
-    </div>
-    <script src="{{ asset('js/script.js') }}"></script>
+<div id="app">
+    <header class="header">
+        @include('layouts.navbar')
+    </header>
+    <main class="section">
+        @yield('content')
+    </main>
+</div>
+<script src="{{ asset('js/script.js') }}"></script>
 </body>
 </html>

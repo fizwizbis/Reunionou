@@ -37,6 +37,11 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
+    public function messages()
+    {
+        return $this->hasMany(Message::class);
+    }
+
     public function events()
     {
         return $this->belongsToMany(Event::class, 'users_events', 'user_id', 'event_id');

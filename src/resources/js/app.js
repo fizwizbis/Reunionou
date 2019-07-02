@@ -4,24 +4,24 @@
  * building robust, powerful web applications using Vue and Laravel.
  */
 
-// import Vue from 'vue';
-// import axios from 'axios';
-//
-// window.axios = axios;
-// window.Event = new Vue();
+require('./bootstrap');
+
+window.Vue = require('vue');
 
 /**
  * The following block of code may be used to automatically register your
  * Vue components. It will recursively scan this directory for the Vue
  * components and automatically register them with their "basename".
  *
- * Eg. ./components/ExampleComponent.vue -> <example-component></example-component>
+ * Eg. ./components/ChatComponent.vue -> <example-component></example-component>
  */
 
 // const files = require.context('./', true, /\.vue$/i);
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default));
 
-// Vue.component('example-component', require('./components/ExampleComponent.vue').default);
+Vue.component('chat-messages', require('./components/ChatMessages.vue').default);
+Vue.component('chat-message', require('./components/ChatMessage.vue').default);
+Vue.component('chat-form', require('./components/ChatForm.vue').default);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
@@ -29,9 +29,39 @@
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 
-// const app = new Vue({
-//     el: '#app'
-// });
+const app = new Vue({
+    el: '#app',
+
+    data: {
+        messages: []
+    },
+
+    created() {
+        this.fetchMessages();
+        Echo.private('chat')
+            .listen('MessageSent', (e) => {
+                this.messages.push({
+                    body: e.body.body,
+                    user: e.user
+                });
+            });
+    },
+
+    methods: {
+        fetchMessages() {
+            axios.get('/messages').then(response => {
+                this.messages = response.data;
+            });
+        },
+        addMessage(message) {
+            this.messages.push(message);
+
+            axios.post('/messages', message).then(response => {
+                console.log(response.data);
+            });
+        }
+    }
+});
 
 document.addEventListener('DOMContentLoaded', () => {
     // Get all "navbar-burger" elements
@@ -39,7 +69,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Check if there are any navbar burgers
     if ($navbarBurgers.length > 0) {
         // Add a click event on each of them
-        $navbarBurgers.forEach( el => {
+        $navbarBurgers.forEach(el => {
             el.addEventListener('click', () => {
                 // Get the target from the "data-target" attribute
                 const target = el.dataset.target;
