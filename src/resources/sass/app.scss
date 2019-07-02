@@ -14,7 +14,7 @@ $flex-alignements: ('start': 'flex-start', 'center': 'center', 'end': 'flex-end'
     }
 }
 
-.card {
+.card, .box {
     border-radius: $radius-large;
     box-shadow: $box-shadow-light;
 }
