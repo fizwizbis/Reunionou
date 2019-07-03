@@ -6,7 +6,6 @@ use App\Todo;
 use App\TodoElement;
 use Exception;
 use Illuminate\Http\Request;
-use Illuminate\Support\Str;
 use Illuminate\View\View;
 
 class TodoController extends Controller
@@ -23,7 +22,6 @@ class TodoController extends Controller
         }
 
         $todo = new Todo();
-        $todo->id = Str::Uuid();
         $todo->event_id = 0;
 
         $todo->name = $_POST['name'];
