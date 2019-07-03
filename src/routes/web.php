@@ -20,6 +20,7 @@ App\Http\Router\Event::routes();
 App\Http\Router\Profil::routes();
 App\Http\Router\Auth::routes();
 App\Http\Router\Todo::routes();
+App\Http\Router\Poll::routes();
 
 Route::get('messages/{eventId}', 'ChatController@fetch');
 Route::post('messages/{eventId}', 'ChatController@send');
