@@ -22,6 +22,9 @@ class EventController extends Controller
     public function detail($id)
     {
         $event = Event::find($id);
+        if ($event->isSubscribed()) {
+            return view('event.panel', ['event' => $event]);
+        }
         return view('event.detail', ['event' => $event]);
     }
 
@@ -51,5 +54,12 @@ class EventController extends Controller
     {
         $events = Event::where('title', 'LIKE', '%'.$request->name.'%')->get();
         return view('event.search', ['events' => $events]);
+    }
+
+    public function subscribe($id)
+    {
+        $event = Event::find($id);
+        $event->subscribers()->attach(Auth::user()->id);
+        return back();
     }
 }
