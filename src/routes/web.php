@@ -11,15 +11,14 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
-Route::get('/home', 'HomeController@index')->name('home');
+use App\Http\Router;
 
-App\Http\Router\Event::routes();
-App\Http\Router\Profil::routes();
-App\Http\Router\Auth::routes();
-App\Http\Router\Todo::routes();
+Route::get('', 'HomeController@index')->name('home');
+
+Router\Event::routes();
+Router\Profil::routes();
+Router\Auth::routes();
+Router\Todo::routes();
 
 Route::get('messages/{eventId}', 'ChatController@fetch');
 Route::post('messages/{eventId}', 'ChatController@send');
