@@ -15,6 +15,7 @@ class Event implements BaseRouter
             Route::get('/create', 'EventController@createForm')->name('eventCreateForm');
             Route::get('/{id}', 'EventController@detail')->name('eventDetail');
             Route::get('/{id}/delete', 'EventController@delete')->name('eventDelete');
+            Route::post('/serch', 'EventController@search')->name('eventSearch');
         });
     }
 }

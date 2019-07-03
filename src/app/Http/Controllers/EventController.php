@@ -16,17 +16,17 @@ class EventController extends Controller
     public function index()
     {
         $events = Event::all();
-        return view('eventIndex', ['events' => $events]);
+        return view('event.index', ['events' => $events]);
     }
 
     public function detail($id)
     {
         $event = Event::find($id);
-        return view('eventDetail', ['event' => $event]);
+        return view('event.detail', ['event' => $event]);
     }
 
     public function createForm() {
-        return view('eventCreate');
+        return view('event.create');
     }
 
     public function create(Request $request) {
@@ -45,6 +45,11 @@ class EventController extends Controller
         } catch (Exception $e) {
             return back()->with('error', 'Evènement créé avec non succès');
         }
+    }
 
+    public function search(Request $request)
+    {
+        $events = Event::where('title', 'LIKE', '%'.$request->name.'%')->get();
+        return view('event.search', ['events' => $events]);
     }
 }
