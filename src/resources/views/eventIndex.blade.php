@@ -46,14 +46,14 @@
                     </div>
                     <div class="card-content">
                         <div class="content">
-                            <span class="tag is-dark subtitle">#1</span>
+                            <span class="tag is-dark subtitle">{{ $event->title }}</span>
                             <p>{{ $event->description }}</p>
                         </div>
                     </div>
                     <footer class="card-footer">
-                        <a class="card-footer-item">Compare</a>
-                        <a class="card-footer-item">Share</a>
-                        <a class="card-footer-item">Delete</a>
+
+                        <a href="{{ route('eventDetail', ['id' => $event->id]) }}" class="card-footer-item card-footer-item-hoover">Details</a>
+                        <a href="{{ route('eventDelete', ['id' => $event->id]) }}" class="card-footer-item card-footer-item-hoover">Delete</a>
                     </footer>
                 </div>
                 <br>

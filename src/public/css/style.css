@@ -36,3 +36,12 @@ body {
     padding: 20px;
     background-color: #F1F1F1;
 }
+
+.card-footer-item-hoover {
+    transition: 0.3s background-color ease-in-out;
+}
+
+.card-footer-item-hoover:hover {
+    color: #3490dc;
+    background-color: aquamarine;
+}
