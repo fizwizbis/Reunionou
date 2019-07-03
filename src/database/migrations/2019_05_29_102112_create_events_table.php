@@ -16,12 +16,13 @@ class CreateEventsTable extends Migration
         Schema::create('events', function (Blueprint $table) {
             $table->uuid('id');
             $table->char('title', 255);
-            $table->text('description');
-            $table->timestamp('date')->useCurrent();
+            $table->text('description')->nullable();
+            $table->timestamp('date')->nullable();
             $table->char('token', 16);
             $table->unsignedBigInteger('author');
-            $table->char('address', 255);
+            $table->char('address', 255)->nullable();
             $table->boolean('public');
+            $table->string('image')->nullable();
             $table->timestamps();
 
             $table->primary('id');
