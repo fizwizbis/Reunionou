@@ -41,7 +41,7 @@
     </div>
     <div class="columns is-mobile is-multiline">
         @foreach(Auth::user()->myEvents as $event)
-            @include('event.eventCard')
+            @include('event.element.eventCard')
         @endforeach
     </div>
     <div class="box">
@@ -51,7 +51,7 @@
     </div>
     <div class="columns is-mobile is-multiline">
         @foreach(Auth::user()->events as $event)
-            @include('event.eventCard')
+            @include('event.element.eventCard')
         @endforeach
     </div>
 @endsection
