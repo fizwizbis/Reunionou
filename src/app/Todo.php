@@ -3,6 +3,7 @@
 namespace App;
 
 use Reliese\Database\Eloquent\Model as Eloquent;
+use Str;
 
 /**
  * Class Todo
@@ -21,14 +22,21 @@ class Todo extends Eloquent
     public $incrementing = false;
 
     protected $dates = [
-        'expiration'
+        'expiration',
     ];
 
     protected $fillable = [
         'event_id',
         'name',
-        'expiration'
+        'expiration',
     ];
+
+    public function save(array $options = [])
+    {
+        if (empty($this->id)) {
+            $this->id = Str::Uuid();
+        }
+    }
 
     public function progress(): string
     {
