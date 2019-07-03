@@ -8,16 +8,21 @@ class Message extends Model
 {
     /** @var array */
     protected $fillable = [
-        'body',
+        'body', 'event_id',
     ];
     /** @var array */
     protected $appends = [
-        'selfMessage'
+        'selfMessage',
     ];
 
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function event()
+    {
+        return $this->belongsTo(Event::class);
     }
 
     public function getSelfMessageAttribute()

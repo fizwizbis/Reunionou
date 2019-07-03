@@ -19,6 +19,7 @@ window.Vue = require('vue');
 // const files = require.context('./', true, /\.vue$/i);
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default));
 
+Vue.component('chat', require('./components/Chat.vue').default);
 Vue.component('chat-messages', require('./components/ChatMessages.vue').default);
 Vue.component('chat-message', require('./components/ChatMessage.vue').default);
 Vue.component('chat-form', require('./components/ChatForm.vue').default);
@@ -31,36 +32,6 @@ Vue.component('chat-form', require('./components/ChatForm.vue').default);
 
 const app = new Vue({
     el: '#app',
-
-    data: {
-        messages: []
-    },
-
-    created() {
-        this.fetchMessages();
-        Echo.private('chat')
-            .listen('MessageSent', (e) => {
-                this.messages.push({
-                    body: e.body.body,
-                    user: e.user
-                });
-            });
-    },
-
-    methods: {
-        fetchMessages() {
-            axios.get('/messages').then(response => {
-                this.messages = response.data;
-            });
-        },
-        addMessage(message) {
-            this.messages.push(message);
-
-            axios.post('/messages', message).then(response => {
-                console.log(response.data);
-            });
-        }
-    }
 });
 
 document.addEventListener('DOMContentLoaded', () => {

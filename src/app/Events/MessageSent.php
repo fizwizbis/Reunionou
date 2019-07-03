@@ -2,6 +2,7 @@
 
 namespace App\Events;
 
+use App\Event;
 use App\Message;
 use App\User;
 use Illuminate\Broadcasting\Channel;
@@ -19,16 +20,20 @@ class MessageSent implements ShouldBroadcast
     public $user;
     /** @var Message */
     public $body;
+    /** @var Event */
+    private $event;
 
     /**
      * MessageSent constructor.
      * @param User $user
      * @param Message $body
+     * @param Event $event
      */
-    public function __construct(User $user, Message $body)
+    public function __construct(User $user, Message $body, Event $event)
     {
         $this->user = $user;
         $this->body = $body;
+        $this->event = $event;
     }
 
     /**
@@ -38,6 +43,6 @@ class MessageSent implements ShouldBroadcast
      */
     public function broadcastOn()
     {
-        return new PrivateChannel('chat');
+        return new PrivateChannel('chat.'.$this->event->id);
     }
 }

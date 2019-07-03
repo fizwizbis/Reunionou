@@ -20,9 +20,8 @@ App\Http\Router\Event::routes();
 App\Http\Router\Profil::routes();
 App\Http\Router\Auth::routes();
 
-Route::get('/chat', 'ChatsController@index');
-Route::get('messages', 'ChatsController@fetch');
-Route::post('messages', 'ChatsController@send');
+Route::get('messages/{eventId}', 'ChatController@fetch');
+Route::post('messages/{eventId}', 'ChatController@send');
 
 Route::prefix('todo')->name('todo')->group(function () {
     Route::get('', 'TodoController@index')->name('.index');

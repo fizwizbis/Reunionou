@@ -12234,8 +12234,8 @@ label.panel-block:hover {
 }
 
 ul.chat {
-  max-height: 400px;
-  overflow-y: scroll;
+  height: 400px;
+  overflow-y: auto;
 }
 
 ul.chat::-webkit-scrollbar-track {
@@ -12253,14 +12253,14 @@ ul.chat::-webkit-scrollbar-thumb {
 }
 
 ul.chat li .chat-body {
-  max-width: 50%;
+  max-width: 70%;
 }
 
 ul.chat li .chat-body > p {
   background-color: #f0f0f0;
   border-radius: 0 20px 20px 20px;
   display: inline-block;
-  margin-bottom: 2px;
+  margin-bottom: 1.5rem;
   padding: 10px 15px;
   position: relative;
   color: #0a0a0a;

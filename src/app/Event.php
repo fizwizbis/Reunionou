@@ -10,6 +10,11 @@ class Event extends Model
     protected $guarded = [];
     public $incrementing = false;
 
+    public function messages()
+    {
+        return $this->hasMany(Message::class);
+    }
+
     public function subscribers()
     {
         return $this->belongsToMany(User::class, 'users_events', 'event_id', 'user_id');
