@@ -14,11 +14,6 @@
         </div>
         @include('event.element.count')
         @include('event.element.subscribers', ['size' => 9])
-        <div class="columns">
-            <div class="column is-8">
-                @include('event.chat')
-            </div>
-        </div>
     </div>
 
 @endsection
