@@ -13,7 +13,6 @@
 
 use App\Http\Router;
 
-Route::get('', 'HomeController@index')->name('home');
 
 Router\Event::routes();
 Router\Profil::routes();
@@ -25,3 +24,7 @@ Route::get('messages/{eventId}', 'ChatController@fetch');
 Route::post('messages/{eventId}', 'ChatController@send');
 
 Auth::routes();
+
+Route::get('', function (){
+   return redirect()->route('profil');
+});

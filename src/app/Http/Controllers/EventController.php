@@ -5,8 +5,10 @@ namespace App\Http\Controllers;
 
 
 use App\Event;
+use App\Invitation;
 use App\Poll;
 use App\Todo;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Mockery\Exception;
 use Ramsey\Uuid\Uuid;
@@ -34,7 +36,8 @@ class EventController extends Controller
     public function manage(Event $event) {
         $todos = Todo::all()->where('event_id', $event->id);
         $polls = Poll::all()->where('event_id', $event->id);
-        return view('event.manage', ['event' => $event, 'todos'=> $todos, 'polls' => $polls]);
+        $invites = $event->subscribers()->get();
+        return view('event.manage', ['event' => $event, 'todos'=> $todos, 'polls' => $polls, 'invites' => $invites]);
     }
 
     public function create(Request $request) {
@@ -64,7 +67,7 @@ class EventController extends Controller
     public function change(Request $request, Event $event)
     {
         if ($request->isMethod('get')) {
-            return view('event.create');
+            return view('event.change')->with('event', $event);
         }
 
         $event->title = $request->title;
@@ -73,9 +76,9 @@ class EventController extends Controller
         $event->public = $request->public;
         try {
             $event->save();
-            return redirect()->route('event.index')->with('success', 'Evènement créé avec succès');
+            return redirect()->route('event.manage', ['event' => $event])->with('success', 'Evènement modifié avec succès');
         } catch (Exception $e) {
-            return back()->with('error', 'Evènement créé avec non succès');
+            return back(['event' => $event])->with('error', 'Evènement créé avec non succès');
         }
     }
 
@@ -88,6 +91,36 @@ class EventController extends Controller
     public function subscribe(Event $event)
     {
         $event->subscribers()->attach(Auth::user()->id);
-        return redirect(route('event.detail', [$event]));;
+        return redirect(route('event.detail', [$event]));
+    }
+
+    public function invite(Request $request, Event $event) {
+        if ($request->isMethod('get')) {
+            return view('event.invite', ['event' => $event]);
+        }
+
+        $invitation = new Invitation();
+        $invitation->email = $request->email;
+
+        //$invitation->expiration = Carbon::now()->addWeek()->timestamp;
+
+        $invitation->id  = \Str::uuid();
+        $invitation->token = Str::random(16);
+        $invitation->event_id = $event->id;
+
+        try {
+            $invitation->save();
+        } catch (Exception $e) {
+            echo 'erreur';
+        }
+
+        return redirect()->route('event.manage', $event);
+    }
+
+    public function respond($invitation_token) {
+        $invit = Invitation::where('token', $invitation_token)->first();
+        $event = Event::find($invit->event_id);
+        $invit->delete();
+        return $this->subscribe($event);
     }
 }

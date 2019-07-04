@@ -3,6 +3,7 @@
 
 namespace App\Http\Router;
 
+use App\Http\Controllers\EventController;
 use \Route;
 
 class Event implements BaseRouter
@@ -19,7 +20,9 @@ class Event implements BaseRouter
                 Route::get('subscribe', 'EventController@subscribe')->name('.subscribe');
                 Route::get('manage', 'EventController@manage')->middleware('author')->name('.manage');
                 Route::match(['GET', 'POST'], 'change', 'EventController@change')->middleware('author')->name('.change');
+                Route::match(['GET', 'POST'], 'invite', 'EventController@invite')->middleware('author')->name('.invite');
             });
+            Route::get('respond/{invitation_token}', 'EventController@respond')->name('.respond');
         });
     }
 }
