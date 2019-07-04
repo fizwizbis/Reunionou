@@ -1,7 +1,7 @@
 @foreach ($elements as $element)
     <form
         method="POST"
-        action="{{ route('todo.elements.toggle', ['todo' => $todo->id, 'element' => $element]) }}"
+        action="{{ route('todo.elements.toggle', ['event' => $event, 'todo' => $todo->id, 'element' => $element]) }}"
         id="{{ $element->id }}__form"
     >
         @csrf
@@ -18,7 +18,7 @@
         </label>
         <input type="submit" id="{{ $element->id }}__submit" style="display:none">
 
-        <a href="{{ route('todo.elements.destroy', ['todo' => $todo->id, 'element' => $element]) }}">x</a>
+        <a href="{{ route('todo.elements.destroy', ['event' => $event, 'todo' => $todo->id, 'element' => $element]) }}">x</a>
 
         @if($element->checked)
             {{ $element->checker() }}
@@ -27,7 +27,7 @@
 @endforeach
 
 
-<form method="POST" action="{{ route('todo.elements.add', ['todo' => $todo->id]) }}">
+<form method="POST" action="{{ route('todo.elements.add', ['event' => $event, 'todo' => $todo->id]) }}">
     @csrf
 
     <label for="element-name">Ajouter une tache</label>

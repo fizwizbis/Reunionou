@@ -22,7 +22,9 @@ class EventController extends Controller
     public function detail(Event $event)
     {
         if ($event->isSubscribed() || $event->isAuthor()) {
-            return view('event.panel', ['event' => $event]);
+            $todos = Todo::all()->where('event_id', $event->id);
+
+            return view('event.panel', ['event' => $event, 'todos' => $todos]);
         }
         return view('event.detail', ['event' => $event]);
     }

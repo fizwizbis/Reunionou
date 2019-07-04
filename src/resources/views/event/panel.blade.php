@@ -7,6 +7,9 @@
             <div class="column is-8">
                 @include('event.chat')
             </div>
+            <div class="column">
+                @include('todo.index')
+            </div>
         </div>
     </div>
 
