@@ -1,13 +1,12 @@
-@include('poll.show')
+@extends('poll.show')
 
-Résultat : <br>
+@section('poll_content')
 
-@foreach($answers as $answer)
-    -
-    {{ $answer->text }}
-    {{ $answer->score }}
-    @if(in_array($answer->id, $userVotes))
-        ✔️
-    @endif
-    <br>
-@endforeach
+    @foreach($answers as $answer)
+        <div class="box @if(in_array($answer->id, $userVotes))has-text-weight-bold @endif">
+            {{ $answer->text }}
+            {{ $answer->score }}
+        </div>
+    @endforeach
+
+@endsection

@@ -10,7 +10,6 @@ use App\Vote;
 use Auth;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
-use RelativeTime\RelativeTime;
 
 class PollController extends Controller
 {
@@ -24,26 +23,14 @@ class PollController extends Controller
         /** @var Poll $poll */
         $poll = Poll::where('slug', $slug)->firstOrFail();
 
-        $remainingTime = $this->getRemainingTime($poll);
-
         if ($this->canVote($poll)) {
-            return view('poll.vote', ['event' => $event, 'poll' => $poll, 'remainingTime' => $remainingTime]);
+            return view('poll.vote', ['event' => $event, 'poll' => $poll, 'remainingTime' => $poll->remainingTime()]);
         }
 
         $answers = $poll->answers()->orderByDesc('score')->get();
-        $userVotes = $this->getUserVotes();
+        $userVotes = $this->getUserVotes($poll);
 
-        return view('poll.result', ['poll' => $poll, 'answers' => $answers, 'userVotes' => $userVotes, 'remainingTime' => $remainingTime]);
-    }
-
-    private function getRemainingTime(Poll $poll): ?string
-    {
-        if ($poll->isExpired()) {
-            return null;
-        }
-
-        $relativeTime = new RelativeTime(['language' => '\RelativeTime\Languages\French']);
-        return $poll->expiration === null ? null : $relativeTime->timeLeft($poll->expiration);
+        return view('poll.result', ['event' => $event, 'poll' => $poll, 'answers' => $answers, 'userVotes' => $userVotes, 'remainingTime' => $poll->remainingTime()]);
     }
 
     private function canVote(Poll $poll): bool
@@ -51,16 +38,21 @@ class PollController extends Controller
         return !$this->hasVoted($poll) && !$poll->isExpired();
     }
 
-    private function hasVoted(): bool
+    private function hasVoted(Poll $poll): bool
     {
-        return Vote::where('user_id', Auth::id())->count() > 0;
+        return $this->getUserVotes($poll) !== [];
     }
 
-    private function getUserVotes(): array
+    private function getUserVotes(Poll $poll): array
     {
-        return Vote::where('user_id', Auth::id())
-            ->select('answer_id')
-            ->pluck('answer_id')->toArray();
+        $votes = [];
+        $poll->answers()->each(function (Answer $a) use (&$votes) {
+            if (!empty($a->votes()->get()->toArray())) {
+                $votes[] = $a->id;
+            }
+        });
+
+        return $votes;
     }
 
     public function vote(Event $event, String $slug)

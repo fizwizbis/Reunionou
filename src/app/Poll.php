@@ -3,6 +3,7 @@
 namespace App;
 
 use Carbon\Carbon;
+use RelativeTime\RelativeTime;
 use Reliese\Database\Eloquent\Model as Eloquent;
 use Str;
 
@@ -55,8 +56,28 @@ class Poll extends Eloquent
         return $this->hasMany('App\Answer');
     }
 
+    public function votes()
+    {
+        $votes = [];
+        $this->answers()->each(function (Answer $answer) {
+            $votes[] = $answer->votes()->get();
+        });
+
+        return $votes;
+    }
+
     public function isExpired()
     {
         return !is_null($this->expiration) && strtotime($this->expiration) < time();
+    }
+
+    public function remainingTime(): ?string
+    {
+        if ($this->isExpired()) {
+            return null;
+        }
+
+        $relativeTime = new RelativeTime(['language' => '\RelativeTime\Languages\French']);
+        return $this->expiration === null ? null : $relativeTime->timeLeft($this->expiration);
     }
 }

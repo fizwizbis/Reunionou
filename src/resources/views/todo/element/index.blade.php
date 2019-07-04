@@ -6,7 +6,7 @@
     >
         @csrf
 
-        - <label for="{{ $element->id }}__submit">
+        <label for="{{ $element->id }}__submit">
             <input
                 type="checkbox"
                 @if($element->checked)
