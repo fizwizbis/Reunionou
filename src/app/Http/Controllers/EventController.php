@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 
 
 use App\Event;
+use App\Todo;
 use Illuminate\Support\Facades\Auth;
 use Mockery\Exception;
 use Ramsey\Uuid\Uuid;
