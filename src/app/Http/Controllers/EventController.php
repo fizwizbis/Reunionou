@@ -64,6 +64,6 @@ class EventController extends Controller
     public function subscribe(Event $event)
     {
         $event->subscribers()->attach(Auth::user()->id);
-        return back();
+        return redirect(route('eventDetail', [$event]));;
     }
 }
