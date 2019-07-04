@@ -1,19 +1,19 @@
 @extends('layouts.app')
 
 @section('content')
-    <form>
+    <form method="post" action="{{ route('event.invite', $event) }}">
         @csrf
         <div class="field has-addons">
             <div class="control has-icons-left has-icons-right">
-                <input class="input" type="email" placeholder="Email de la personne à inviter" required>
+                <input class="input" name="email" type="email" placeholder="Email de la personne à inviter" required>
                 <span class="icon is-left">
                     <i class="fas fa-envelope"></i>
                 </span>
             </div>
             <div class="control">
-                <a class="button is-primary">
+                <button class="button is-primary">
                     Envoyer
-                </a>
+                </button>
             </div>
         </div>
     </form>

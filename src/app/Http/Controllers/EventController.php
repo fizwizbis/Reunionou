@@ -5,8 +5,10 @@ namespace App\Http\Controllers;
 
 
 use App\Event;
+use App\Invitation;
 use App\Poll;
 use App\Todo;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Mockery\Exception;
 use Ramsey\Uuid\Uuid;
@@ -91,7 +93,31 @@ class EventController extends Controller
 
     public function invite(Request $request, Event $event) {
         if ($request->isMethod('get')) {
-            return view('event.invite');
+            return view('event.invite', ['event' => $event]);
         }
+
+        $invitation = new Invitation();
+        $invitation->email = $request->email;
+
+        //$invitation->expiration = Carbon::now()->addWeek()->timestamp;
+
+        $invitation->id  = \Str::uuid();
+        $invitation->token = Str::random(16);
+        $invitation->event_id = $event->id;
+
+        try {
+            $invitation->save();
+        } catch (Exception $e) {
+            echo 'erreur';
+        }
+
+        return redirect()->route('event.manage', $event);
+    }
+
+    public function respond($invitation_token) {
+        $invit = Invitation::where('token', $invitation_token)->first();
+        $event = Event::find($invit->event_id);
+        $invit->delete();
+        return $this->subscribe($event);
     }
 }
