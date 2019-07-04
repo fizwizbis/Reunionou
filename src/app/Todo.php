@@ -36,6 +36,8 @@ class Todo extends Eloquent
         if (empty($this->id)) {
             $this->id = Str::Uuid();
         }
+
+        return parent::save();
     }
 
     public function progress(): string

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Event;
 use App\Todo;
 use App\TodoElement;
 use Auth;
@@ -10,7 +11,7 @@ use Illuminate\Support\Str;
 
 class TodoElementController extends Controller
 {
-    public function create(Todo $todo)
+    public function create(Event $event, Todo $todo)
     {
         $element = new TodoElement();
 
@@ -19,10 +20,10 @@ class TodoElementController extends Controller
         $element->description = $_POST['name'];
         $element->save();
 
-        return redirect(route('todo.show', $todo));
+        return redirect(route('todo.show', [$event, $todo]));
     }
 
-    public function destroy(Todo $todo, TodoElement $element)
+    public function destroy(Event $event, Todo $todo, TodoElement $element)
     {
         try {
             $element->delete();
@@ -30,10 +31,10 @@ class TodoElementController extends Controller
             die($exception);
         }
 
-        return redirect(route('todo.show', $todo));
+        return redirect(route('todo.show', [$event, $todo]));
     }
 
-    public function toggle(Todo $todo, TodoElement $element)
+    public function toggle(Event $event, Todo $todo, TodoElement $element)
     {
         $element->checked = !$element->checked;
 
@@ -43,6 +44,6 @@ class TodoElementController extends Controller
 
         $element->save();
 
-        return redirect(route('todo.show', $todo));
+        return redirect(route('todo.show', [$event, $todo]));
     }
 }
