@@ -16,7 +16,7 @@ class Author
      */
     public function handle($request, Closure $next)
     {
-        if (Event::find($request->id)->isAuthor()) {
+        if (Event::find($request->route('event')->id)->isAuthor()) {
             return $next($request);
         }
         return redirect()->route('profil');
