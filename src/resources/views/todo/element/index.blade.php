@@ -18,7 +18,9 @@
         </label>
         <input type="submit" id="{{ $element->id }}__submit" style="display:none">
 
-        <a href="{{ route('todo.elements.destroy', ['event' => $event, 'todo' => $todo->id, 'element' => $element]) }}">x</a>
+        @if($event->isAuthor())
+            <a href="{{ route('todo.elements.destroy', ['event' => $event, 'todo' => $todo->id, 'element' => $element]) }}">x</a>
+        @endif
 
         @if($element->checked)
             {{ $element->checker() }}
@@ -27,11 +29,13 @@
 @endforeach
 
 
-<form method="POST" action="{{ route('todo.elements.add', ['event' => $event, 'todo' => $todo->id]) }}">
-    @csrf
+@if($event->isAuthor())
+    <form method="POST" action="{{ route('todo.elements.add', ['event' => $event, 'todo' => $todo->id]) }}">
+        @csrf
 
-    <label for="element-name">Ajouter une tache</label>
-    <input id="element-name" type="text" name="name">
+        <label for="element-name">Ajouter une tache</label>
+        <input id="element-name" type="text" name="name">
 
-    <input type="submit">
-</form>
+        <input type="submit">
+    </form>
+@endif

@@ -3,13 +3,18 @@
 @section('content')
 
     <div class="container">
-        <div class="level">
-            <div class="level-left">
-                <h1>{{ $event->title }}</h1>
+        <div class="level align-items-start">
+            <div class="level-left is-block">
+                <h1 class="title is-1">{{ $event->title }}</h1>
                 <p class="subtitle">{{ substr($event->description, 0, 100).'...' }}</p>
             </div>
             <div class="level-right">
-                <a href="{{ route('event.subscribe', $event) }}" class="button is-primary">S'INSCRIRE</a>
+                @if ($event->free)
+                    <a href="{{ route('event.subscribe', ['id' => $event->id]) }}" class="button is-primary">S'INSCRIRE</a>
+                @else
+                    <a href="{{ route('event.subscribe', ['id' => $event->id]) }}" class="button is-primary">ACHETER MA PLACE</a>
+                    <h3 class="title is-3">&nbsp;{{ $event->price }}€</h3>
+                @endif
             </div>
         </div>
         @include('event.element.count')

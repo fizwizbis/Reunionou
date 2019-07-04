@@ -5,6 +5,12 @@
         <br>
     @endforeach
 
+    @if(empty($polls) && !$event->isAuthor())
+        Aucuns sondages
+    @endif
 
-    <a href="{{ route('poll.create', $event) }}">Créer un sondage</a>
+    @if($event->isAuthor())
+        <a href="{{ route('poll.create', $event) }}">Créer un sondage</a>
+    @endif
+
 </div>
