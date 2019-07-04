@@ -58,6 +58,24 @@ class EventController extends Controller
         }
     }
 
+    public function change(Request $request, Event $event)
+    {
+        if ($request->isMethod('get')) {
+            return view('event.create');
+        }
+
+        $event->title = $request->title;
+        $event->description = $request->description;
+        $event->address = $request->address;
+        $event->public = $request->public;
+        try {
+            $event->save();
+            return redirect()->route('eventIndex')->with('success', 'Evènement créé avec succès');
+        } catch (Exception $e) {
+            return back()->with('error', 'Evènement créé avec non succès');
+        }
+    }
+
     public function search(Request $request)
     {
         $events = Event::where('title', 'LIKE', '%'.$request->name.'%')->get();
