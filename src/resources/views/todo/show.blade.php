@@ -4,5 +4,7 @@
 
 @include('todo.element.index')
 
-<a href="{{ route('todo.destroy', ['event' => $event, 'todo' => $todo->id]) }}">Supprimer la liste</a><br>
-<a href="{{ route('todo.update', ['event' => $event, 'todo' => $todo->id]) }}">Renommer la liste</a>
+@if($event->isAuthor())
+    <a href="{{ route('todo.destroy', ['event' => $event, 'todo' => $todo->id]) }}">Supprimer la liste</a><br>
+    <a href="{{ route('todo.update', ['event' => $event, 'todo' => $todo->id]) }}">Renommer la liste</a>
+@endif
