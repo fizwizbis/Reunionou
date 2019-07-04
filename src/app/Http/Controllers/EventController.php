@@ -52,7 +52,7 @@ class EventController extends Controller
         $event->public = $request->public;
         try {
             $event->save();
-            return redirect()->route('eventIndex')->with('success', 'Evènement créé avec succès');
+            return redirect()->route('event.index')->with('success', 'Evènement créé avec succès');
         } catch (Exception $e) {
             return back()->with('error', 'Evènement créé avec non succès');
         }
@@ -70,7 +70,7 @@ class EventController extends Controller
         $event->public = $request->public;
         try {
             $event->save();
-            return redirect()->route('eventIndex')->with('success', 'Evènement créé avec succès');
+            return redirect()->route('event.index')->with('success', 'Evènement créé avec succès');
         } catch (Exception $e) {
             return back()->with('error', 'Evènement créé avec non succès');
         }

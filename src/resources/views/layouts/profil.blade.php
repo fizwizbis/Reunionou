@@ -29,7 +29,7 @@
                         </a>
                     </li>
                     <li class="link {{ Request::is('event') ? 'is-active' : '' }}">
-                        <a href="{{ route('eventIndex') }}">
+                        <a href="{{ route('event.index') }}">
                             <span class="icon"><i class="fa fa-thumbs-up"></i></span>
                             <span>Mes Evèments</span>
                         </a>

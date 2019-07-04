@@ -9,7 +9,7 @@ class Event implements BaseRouter
 {
     public static function routes()
     {
-        Route::group(['middleware' => 'auth', 'prefix' => 'event', 'name' => 'event'], function() {
+        Route::prefix('event')->name('event')->middleware('auth')->group(function () {
             Route::get('', 'EventController@index')->name('.index');
             Route::match(['GET', 'POST'], 'create', 'EventController@create')->name('.create');
             Route::post('search', 'EventController@search')->name('.search');
