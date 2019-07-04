@@ -9,6 +9,7 @@
             </div>
             <div class="column">
                 @include('todo.index')
+                @include('poll.index')
             </div>
         </div>
     </div>

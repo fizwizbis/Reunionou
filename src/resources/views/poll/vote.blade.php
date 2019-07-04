@@ -2,7 +2,7 @@
 
 <form
     method="POST"
-    action="{{ route('poll.vote', ['poll' => $poll->slug]) }}"
+    action="{{ route('poll.vote', ['event' => $event, 'poll' => $poll->slug]) }}"
     id="{{ $poll->slug }}"
 >
     @CSRF

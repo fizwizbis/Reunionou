@@ -25,8 +25,8 @@ class EventController extends Controller
     {
         if ($event->isSubscribed() || $event->isAuthor()) {
             $todos = Todo::all()->where('event_id', $event->id);
-
-            return view('event.panel', ['event' => $event, 'todos' => $todos]);
+            $polls = Poll::all()->where('event_id', $event->id);
+            return view('event.panel', ['event' => $event, 'todos' => $todos, 'polls' => $polls]);
         }
         return view('event.detail', ['event' => $event]);
     }
