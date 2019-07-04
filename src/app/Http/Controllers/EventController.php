@@ -34,7 +34,8 @@ class EventController extends Controller
     public function manage(Event $event) {
         $todos = Todo::all()->where('event_id', $event->id);
         $polls = Poll::all()->where('event_id', $event->id);
-        return view('event.manage', ['event' => $event, 'todos'=> $todos, 'polls' => $polls]);
+        $invites = $event->subscribers()->get();
+        return view('event.manage', ['event' => $event, 'todos'=> $todos, 'polls' => $polls, 'invites' => $invites]);
     }
 
     public function create(Request $request) {
@@ -61,7 +62,7 @@ class EventController extends Controller
     public function change(Request $request, Event $event)
     {
         if ($request->isMethod('get')) {
-            return view('event.create');
+            return view('event.change')->with('event', $event);
         }
 
         $event->title = $request->title;
@@ -70,9 +71,9 @@ class EventController extends Controller
         $event->public = $request->public;
         try {
             $event->save();
-            return redirect()->route('event.index')->with('success', 'Evènement créé avec succès');
+            return redirect()->route('event.manage', ['event' => $event])->with('success', 'Evènement modifié avec succès');
         } catch (Exception $e) {
-            return back()->with('error', 'Evènement créé avec non succès');
+            return back(['event' => $event])->with('error', 'Evènement créé avec non succès');
         }
     }
 
@@ -85,6 +86,13 @@ class EventController extends Controller
     public function subscribe(Event $event)
     {
         $event->subscribers()->attach(Auth::user()->id);
-        return redirect(route('eventDetail', [$event]));;
+        return redirect(route('eventDetail', [$event]));
+    }
+
+    public function invite(Request $request, Event $event) {
+        if ($request->isMethod('get')) {
+            return view('event.invite');
+        }
+
     }
 }

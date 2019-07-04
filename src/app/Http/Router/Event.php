@@ -19,6 +19,7 @@ class Event implements BaseRouter
                 Route::get('subscribe', 'EventController@subscribe')->name('.subscribe');
                 Route::get('manage', 'EventController@manage')->middleware('author')->name('.manage');
                 Route::match(['GET', 'POST'], 'change', 'EventController@change')->middleware('author')->name('.change');
+                Route::match(['GET', 'POST'], 'invite', 'EventController@invite')->middleware('author')->name('.invite');
             });
         });
     }
