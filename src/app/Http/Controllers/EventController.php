@@ -19,13 +19,16 @@ class EventController extends Controller
         return view('event.index', ['events' => $events]);
     }
 
-    public function detail($id)
+    public function detail(Event $event)
     {
-        $event = Event::find($id);
-        if ($event->isSubscribed()) {
+        if ($event->isSubscribed() || $event->isAuthor()) {
             return view('event.panel', ['event' => $event]);
         }
         return view('event.detail', ['event' => $event]);
+    }
+
+    public function manage(Event $event) {
+        return view('event.manage', ['event' => $event]);
     }
 
     public function createForm() {
@@ -56,9 +59,8 @@ class EventController extends Controller
         return view('event.search', ['events' => $events]);
     }
 
-    public function subscribe($id)
+    public function subscribe(Event $event)
     {
-        $event = Event::find($id);
         $event->subscribers()->attach(Auth::user()->id);
         return back();
     }
