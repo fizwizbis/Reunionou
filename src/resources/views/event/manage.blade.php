@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-    <a class="button is-primary is-outlined" href="{{ route('event.change') }}" id="edit-preferences">
+    <a class="button is-primary is-outlined" href="{{ route('event.change', $event) }}" id="edit-preferences">
         <span class="icon"><i class="fa fa-cogs"></i></span>
         <span>Préférences</span>
     </a>
