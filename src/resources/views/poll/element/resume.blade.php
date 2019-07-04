@@ -1,1 +1,1 @@
-<a href="{{ route('poll.show', $poll->slug) }}">{{ $poll->title }}</a>
+<a href="{{ route('poll.show', [$event, $poll->slug]) }}">{{ $poll->title }}</a>

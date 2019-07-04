@@ -25,8 +25,8 @@ class EventController extends Controller
     {
         if ($event->isSubscribed() || $event->isAuthor()) {
             $todos = Todo::all()->where('event_id', $event->id);
-
-            return view('event.panel', ['event' => $event, 'todos' => $todos]);
+            $polls = Poll::all()->where('event_id', $event->id);
+            return view('event.panel', ['event' => $event, 'todos' => $todos, 'polls' => $polls]);
         }
         return view('event.detail', ['event' => $event]);
     }
@@ -86,13 +86,12 @@ class EventController extends Controller
     public function subscribe(Event $event)
     {
         $event->subscribers()->attach(Auth::user()->id);
-        return redirect(route('eventDetail', [$event]));
+        return redirect(route('event.detail', [$event]));
     }
 
     public function invite(Request $request, Event $event) {
         if ($request->isMethod('get')) {
             return view('event.invite');
         }
-
     }
 }

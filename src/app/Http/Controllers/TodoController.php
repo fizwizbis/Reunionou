@@ -22,7 +22,7 @@ class TodoController extends Controller
         $todo->name = $_POST['name'];
         $todo->save();
 
-        return redirect(route('eventDetail', $event));
+        return redirect(route('event.detail', $event));
     }
 
     public function show(Event $event, Todo $todo)
@@ -58,6 +58,6 @@ class TodoController extends Controller
             die($exception);
         }
 
-        return redirect(route('todo.index', [$event, $todo]));
+        return redirect(route('event.detail', [$event]));
     }
 }

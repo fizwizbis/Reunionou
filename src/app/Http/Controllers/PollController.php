@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace App\Http\Controllers;
 
 use App\Answer;
+use App\Event;
 use App\Poll;
 use App\Vote;
 use Auth;
@@ -18,7 +19,7 @@ class PollController extends Controller
         return view('poll.index', ['polls' => Poll::all()]);
     }
 
-    public function show(String $slug)
+    public function show(Event $event, String $slug)
     {
         /** @var Poll $poll */
         $poll = Poll::where('slug', $slug)->firstOrFail();
@@ -26,7 +27,7 @@ class PollController extends Controller
         $remainingTime = $this->getRemainingTime($poll);
 
         if ($this->canVote($poll)) {
-            return view('poll.vote', ['poll' => $poll, 'remainingTime' => $remainingTime]);
+            return view('poll.vote', ['event' => $event, 'poll' => $poll, 'remainingTime' => $remainingTime]);
         }
 
         $answers = $poll->answers()->orderByDesc('score')->get();
@@ -62,21 +63,21 @@ class PollController extends Controller
             ->pluck('answer_id')->toArray();
     }
 
-    public function vote(String $slug)
+    public function vote(Event $event, String $slug)
     {
         $poll = Poll::where('slug', $slug)->first();
 
         if (!isset($_POST['vote'])) {
-            return redirect(route('poll.show', $poll->slug));
+            return redirect(route('poll.show', [$event, $poll->slug]));
         }
 
         if (!$this->canVote($poll)) {
-            return redirect(route('poll.show', $poll->slug));
+            return redirect(route('poll.show', [$event, $poll->slug]));
         }
 
         $answer = Answer::find((int)$_POST['vote']);
         if (is_null($answer)) {
-            return redirect(route('poll.show', $poll->slug));
+            return redirect(route('poll.show', [$event, $poll->slug]));
         }
 
         $vote = new Vote();
@@ -87,10 +88,10 @@ class PollController extends Controller
         $answer->score++;
         $answer->save();
 
-        return redirect(route('poll.show', $poll->slug));
+        return redirect(route('poll.show', [$event, $poll->slug]));
     }
 
-    public function create(Request $request)
+    public function create(Request $request, Event $event)
     {
         if ($request->isMethod('get')) {
             return view('poll.edit');
@@ -102,7 +103,7 @@ class PollController extends Controller
 
         $poll = new Poll();
         $poll->title = $_POST['title'];
-        $poll->event_id = 0;
+        $poll->event_id = $event->id;
         if (!empty($_POST['text'])) {
             $poll->text = $_POST['text'];
         }
@@ -132,7 +133,7 @@ class PollController extends Controller
 
 
         if (empty($_POST['answers'])) {
-            return redirect(route('poll.show', $poll->slug));
+            return redirect(route('poll.show', [$event, $poll->slug]));
         }
 
         $answers = explode("\r\n", $_POST['answers']); // not unix users ?
@@ -144,6 +145,6 @@ class PollController extends Controller
             $answer->save();
         }
 
-        return redirect(route('poll.show', $poll->slug));
+        return redirect(route('event.detail', $event));
     }
 }
