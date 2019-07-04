@@ -21,7 +21,8 @@
                     <a class="navbar-item{{ URL::current() == route('login') ? ' is-active' : '' }}"
                        href="{{ route('login') }}">{{ __('auth.login') }}</a>
                     @if (Route::has('register'))
-                        <a class="navbar-item{{ URL::current() == route('register') ? ' is-active' : '' }}" href="{{ route('register') }}">{{ __('auth.register') }}</a>
+                        <a class="navbar-item{{ URL::current() == route('register') ? ' is-active' : '' }}"
+                           href="{{ route('register') }}">{{ __('auth.register') }}</a>
                     @endif
                 @else
                     <li class="navbar-item has-dropdown is-hoverable">
@@ -29,7 +30,7 @@
                             {{ Auth::user()->name }}
                         </a>
 
-                        <div class="navbar-dropdown">
+                        <div class="navbar-dropdown is-right">
                             <a class="navbar-item" href="{{ route('profil') }}">
                                 Mon espace
                             </a>

@@ -33,18 +33,7 @@
                 </div>
             </div>
 
-            <div class="field">
-                <div class="control">
-                    <label class="radio">
-                        <input type="radio" name="public" value="1">
-                        Public
-                    </label>
-                    <label class="radio">
-                        <input type="radio" name="public" value="0" checked>
-                        Privé
-                    </label>
-                </div>
-            </div>
+            <event-public-radio></event-public-radio>
 
             <div class="control">
                 <button class="button is-link">Créer</button>

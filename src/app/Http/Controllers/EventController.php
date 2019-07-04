@@ -44,6 +44,9 @@ class EventController extends Controller
         $event->author = Auth::user()->id;
         $event->address = $request->address;
         $event->public = $request->public;
+        $event->free = $request->free;
+        $event->max_subs = $request->maxSubs;
+        $event->price = $request->price ?? 0;
         try {
             $event->save();
             return redirect()->route('eventIndex')->with('success', 'Evènement créé avec succès');

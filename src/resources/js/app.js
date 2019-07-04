@@ -19,10 +19,16 @@ window.Vue = require('vue');
 // const files = require.context('./', true, /\.vue$/i);
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default));
 
-Vue.component('chat', require('./components/Chat.vue').default);
-Vue.component('chat-messages', require('./components/ChatMessages.vue').default);
-Vue.component('chat-message', require('./components/ChatMessage.vue').default);
-Vue.component('chat-form', require('./components/ChatForm.vue').default);
+/* Chat */
+Vue.component('chat', require('./components/Chat/Chat.vue').default);
+Vue.component('chat-messages', require('./components/Chat/ChatMessages.vue').default);
+Vue.component('chat-message', require('./components/Chat/ChatMessage.vue').default);
+Vue.component('chat-form', require('./components/Chat/ChatForm.vue').default);
+/* Events */
+Vue.component('event-public-radio', require('./components/Events/EventPublicRadio.vue').default);
+Vue.component('event-max-subs', require('./components/Events/EventMaxSubs.vue').default);
+Vue.component('event-price', require('./components/Events/EventPrice.vue').default);
+Vue.component('event-price-amount', require('./components/Events/EventPriceAmount.vue').default);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
