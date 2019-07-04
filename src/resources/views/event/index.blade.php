@@ -11,7 +11,7 @@
                 </p>
             </div>
             <div class="column">
-                <form action="{{ route('eventSearch') }}" method="post">
+                <form action="{{ route('event.search') }}" method="post">
                     @csrf
                     <div class="field has-addons">
                         <p class="control is-expanded">
@@ -35,7 +35,7 @@
                 </p>
             </div>
             <div class="column">
-                <a href="{{ route('eventCreate') }}" class="button is-primary is-pulled-right">Ajouter</a>
+                <a href="{{ route('event.create') }}" class="button is-primary is-pulled-right">Ajouter</a>
             </div>
         </div>
     </div>

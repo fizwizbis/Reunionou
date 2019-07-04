@@ -9,7 +9,7 @@
                 <p class="subtitle">{{ substr($event->description, 0, 100).'...' }}</p>
             </div>
             <div class="level-right">
-                <a href="{{ route('eventSubscribe', ['id' => $event->id]) }}" class="button is-primary">S'INSCRIRE</a>
+                <a href="{{ route('event.subscribe', ['id' => $event->id]) }}" class="button is-primary">S'INSCRIRE</a>
             </div>
         </div>
         @include('event.element.count')

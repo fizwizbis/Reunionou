@@ -12,10 +12,9 @@
             </div>
         </div>
         <footer class="card-footer">
-            <a href="{{ route('eventDetail', ['id' => $event->id]) }}" class="card-footer-item card-footer-item-hoover">Details</a>
+            <a href="{{ route('event.detail', ['id' => $event->id]) }}" class="card-footer-item card-footer-item-hoover">Details</a>
             @if($event->isAuthor())
-                <a href="{{ route('eventManage', ['id' => $event->id]) }}" class="card-footer-item card-footer-item-hoover">Manage</a>
-                <a href="{{ route('eventDelete', ['id' => $event->id]) }}" class="card-footer-item card-footer-item-hoover">Delete</a>
+                <a href="{{ route('event.manage', ['id' => $event->id]) }}" class="card-footer-item card-footer-item-hoover">Manage</a>
             @endif
         </footer>
     </div>

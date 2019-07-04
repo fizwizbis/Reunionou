@@ -2,22 +2,6 @@
 
 @section('content')
     <article class="container profile">
-        <div class="modal" id="edit-preferences-modal">
-            <div class="modal-background"></div>
-            <div class="modal-card">
-                <header class="modal-card-head">
-                    <p class="modal-card-title">
-                        <span class="icon"><i class="fa fa-cogs"></i></span>
-                        <span>Préférences</span>
-                    </p>
-                    <button class="delete"></button>
-                </header>
-                <footer class="modal-card-foot">
-                    <a class="button is-primary modal-save">Enregistrer</a>
-                    <a class="button modal-cancel">Annuler</a>
-                </footer>
-            </div>
-        </div>
         <section class="section">
             <div class="columns">
                 <div class="column is-2">

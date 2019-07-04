@@ -9,15 +9,17 @@ class Event implements BaseRouter
 {
     public static function routes()
     {
-        Route::group(['middleware' => 'auth', 'prefix' => 'event'], function() {
-            Route::get('/', 'EventController@index')->name('eventIndex');
-            Route::post('/create', 'EventController@create')->name('eventCreate');
-            Route::get('/create', 'EventController@createForm')->name('eventCreateForm');
-            Route::get('/{id}', 'EventController@detail')->name('eventDetail');
-            Route::get('/{id}/delete', 'EventController@delete')->name('eventDelete');
-            Route::post('/search', 'EventController@search')->name('eventSearch');
-            Route::get('/{id}/subscribe', 'EventController@subscribe')->name('eventSubscribe');
-            Route::get('/{id}/manage', 'EventController@manage')->middleware('author')->name('eventManage');
+        Route::group(['middleware' => 'auth', 'prefix' => 'event', 'name' => 'event'], function() {
+            Route::get('', 'EventController@index')->name('.index');
+            Route::match(['GET', 'POST'], 'create', 'EventController@create')->name('.create');
+            Route::post('search', 'EventController@search')->name('.search');
+            Route::group(['prefix' => '{event}'], function() {
+                Route::get('', 'EventController@detail')->name('.detail');
+                Route::get('delete', 'EventController@delete')->name('.delete');
+                Route::get('subscribe', 'EventController@subscribe')->name('.subscribe');
+                Route::get('manage', 'EventController@manage')->middleware('author')->name('.manage');
+                Route::match('change', 'EventController@change')->middleware('author')->name('.change');
+            });
         });
     }
 }

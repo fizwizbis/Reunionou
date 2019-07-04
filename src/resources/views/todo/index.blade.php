@@ -1,9 +1,7 @@
 <div class="box">
     @foreach($todos as $todo)
         -
-        <a href="{{ route('todo.show', ['event' => $event, 'todo' => $todo->id]) }}">
-            {{ $todo->name }}
-        </a> {{ $todo->progress() }}
+        @include('todo.element.resume')
         <br>
     @endforeach
 

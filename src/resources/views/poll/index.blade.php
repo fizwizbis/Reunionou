@@ -1,6 +1,6 @@
 @foreach($polls as $poll)
     -
-    <a href="{{ route('poll.show', $poll->slug) }}">{{ $poll->title }}</a>
+    @include('poll.element.resume')
     <br>
 @endforeach
 

@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 
 
 use App\Event;
+use App\Poll;
+use App\Todo;
 use Illuminate\Support\Facades\Auth;
 use Mockery\Exception;
 use Ramsey\Uuid\Uuid;
@@ -30,14 +32,15 @@ class EventController extends Controller
     }
 
     public function manage(Event $event) {
-        return view('event.manage', ['event' => $event]);
-    }
-
-    public function createForm() {
-        return view('event.create');
+        $todos = Todo::all()->where('event_id', $event->id);
+        $polls = Poll::all()->where('event_id', $event->id);
+        return view('event.manage', ['event' => $event, 'todos'=> $todos, 'polls' => $polls]);
     }
 
     public function create(Request $request) {
+        if ($request->isMethod('get')) {
+            return view('event.create');
+        }
         $event = new Event();
 
         $event->id  = \Str::uuid();
