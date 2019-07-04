@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 
 
 use App\Event;
+use App\Todo;
 use Illuminate\Support\Facades\Auth;
 use Mockery\Exception;
 use Ramsey\Uuid\Uuid;
@@ -19,11 +20,12 @@ class EventController extends Controller
         return view('event.index', ['events' => $events]);
     }
 
-    public function detail($id)
+    public function detail(Event $event)
     {
-        $event = Event::find($id);
-        if ($event->isSubscribed()) {
-            return view('event.panel', ['event' => $event]);
+        if ($event->isSubscribed() || $event->isAuthor()) {
+            $todos = Todo::all()->where('event_id', $event->id);
+
+            return view('event.panel', ['event' => $event, 'todos' => $todos]);
         }
         return view('event.detail', ['event' => $event]);
     }
@@ -56,9 +58,8 @@ class EventController extends Controller
         return view('event.search', ['events' => $events]);
     }
 
-    public function subscribe($id)
+    public function subscribe(Event $event)
     {
-        $event = Event::find($id);
         $event->subscribers()->attach(Auth::user()->id);
         return back();
     }
