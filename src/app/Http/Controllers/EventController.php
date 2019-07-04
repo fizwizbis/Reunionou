@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 
 
 use App\Event;
+use App\Poll;
 use App\Todo;
 use Illuminate\Support\Facades\Auth;
 use Mockery\Exception;
@@ -24,17 +25,22 @@ class EventController extends Controller
     {
         if ($event->isSubscribed() || $event->isAuthor()) {
             $todos = Todo::all()->where('event_id', $event->id);
-
-            return view('event.panel', ['event' => $event, 'todos' => $todos]);
+            $polls = Poll::all()->where('event_id', $event->id);
+            return view('event.panel', ['event' => $event, 'todos' => $todos, 'polls' => $polls]);
         }
         return view('event.detail', ['event' => $event]);
     }
 
-    public function createForm() {
-        return view('event.create');
+    public function manage(Event $event) {
+        $todos = Todo::all()->where('event_id', $event->id);
+        $polls = Poll::all()->where('event_id', $event->id);
+        return view('event.manage', ['event' => $event, 'todos'=> $todos, 'polls' => $polls]);
     }
 
     public function create(Request $request) {
+        if ($request->isMethod('get')) {
+            return view('event.create');
+        }
         $event = new Event();
 
         $event->id  = \Str::uuid();
@@ -49,7 +55,25 @@ class EventController extends Controller
         $event->price = $request->price ?? 0;
         try {
             $event->save();
-            return redirect()->route('eventIndex')->with('success', 'Evènement créé avec succès');
+            return redirect()->route('event.index')->with('success', 'Evènement créé avec succès');
+        } catch (Exception $e) {
+            return back()->with('error', 'Evènement créé avec non succès');
+        }
+    }
+
+    public function change(Request $request, Event $event)
+    {
+        if ($request->isMethod('get')) {
+            return view('event.create');
+        }
+
+        $event->title = $request->title;
+        $event->description = $request->description;
+        $event->address = $request->address;
+        $event->public = $request->public;
+        try {
+            $event->save();
+            return redirect()->route('event.index')->with('success', 'Evènement créé avec succès');
         } catch (Exception $e) {
             return back()->with('error', 'Evènement créé avec non succès');
         }
@@ -64,6 +88,6 @@ class EventController extends Controller
     public function subscribe(Event $event)
     {
         $event->subscribers()->attach(Auth::user()->id);
-        return back();
+        return redirect(route('event.detail', [$event]));;
     }
 }

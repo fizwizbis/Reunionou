@@ -2,40 +2,35 @@
 
 namespace App\Http\Controllers;
 
+use App\Event;
 use App\Todo;
 use App\TodoElement;
 use Exception;
 use Illuminate\Http\Request;
-use Illuminate\View\View;
 
 class TodoController extends Controller
 {
-    public function index(): View
-    {
-        return view('todo.index', ['todos' => Todo::all()]);
-    }
-
-    public function create(Request $request)
+    public function create(Request $request, Event $event)
     {
         if ($request->isMethod('get')) {
             return view('todo.edit');
         }
 
         $todo = new Todo();
-        $todo->event_id = 0;
+        $todo->event_id = $event->id;
 
         $todo->name = $_POST['name'];
         $todo->save();
 
-        return redirect(route('todo.index'));
+        return redirect(route('event.detail', $event));
     }
 
-    public function show(Todo $todo)
+    public function show(Event $event, Todo $todo)
     {
-        return view('todo.show', ['todo' => $todo, 'elements' => $todo->elements()->get()]);
+        return view('todo.show', ['event' => $event, 'todo' => $todo, 'elements' => $todo->elements()->get()]);
     }
 
-    public function update(Request $request, Todo $todo)
+    public function update(Request $request, Event $event, Todo $todo)
     {
         if ($request->isMethod('get')) {
             return view('todo.edit', ['name' => $todo->name]);
@@ -43,10 +38,10 @@ class TodoController extends Controller
 
         $todo->update(['name' => $_POST['name']]);
 
-        return redirect(route('todo.show', $todo));
+        return redirect(route('todo.show', [$event, $todo]));
     }
 
-    public function destroy(Todo $todo)
+    public function destroy(Event $event, Todo $todo)
     {
         $todo->elements()->each(function ($element) {
             try {
@@ -63,6 +58,6 @@ class TodoController extends Controller
             die($exception);
         }
 
-        return redirect(route('todo.index'));
+        return redirect(route('event.detail', [$event]));
     }
 }

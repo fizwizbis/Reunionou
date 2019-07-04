@@ -10,9 +10,9 @@
             </div>
             <div class="level-right">
                 @if ($event->free)
-                    <a href="{{ route('eventSubscribe', ['id' => $event->id]) }}" class="button is-primary">S'INSCRIRE</a>
+                    <a href="{{ route('event.subscribe', ['id' => $event->id]) }}" class="button is-primary">S'INSCRIRE</a>
                 @else
-                    <a href="{{ route('eventSubscribe', ['id' => $event->id]) }}" class="button is-primary">ACHETER MA PLACE</a>
+                    <a href="{{ route('event.subscribe', ['id' => $event->id]) }}" class="button is-primary">ACHETER MA PLACE</a>
                     <h3 class="title is-3">&nbsp;{{ $event->price }}€</h3>
                 @endif
             </div>

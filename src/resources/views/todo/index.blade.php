@@ -1,11 +1,11 @@
 <div class="box">
     @foreach($todos as $todo)
         -
-        <a href="{{ route('todo.show', ['todo' => $todo->id]) }}">
-            {{ $todo->name }}
-        </a> {{ $todo->progress() }}
+        @include('todo.element.resume')
         <br>
     @endforeach
 
-    <a href="{{ route('todo.create', $event) }}">Créer une liste</a>
+    @if($event->isAuthor())
+        <a href="{{ route('todo.create', $event) }}">Créer une liste</a>
+    @endif
 </div>
