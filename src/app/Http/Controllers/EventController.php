@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 
 
 use App\Event;
-use App\Todo;
 use Illuminate\Support\Facades\Auth;
 use Mockery\Exception;
 use Ramsey\Uuid\Uuid;
@@ -28,6 +27,10 @@ class EventController extends Controller
             return view('event.panel', ['event' => $event, 'todos' => $todos]);
         }
         return view('event.detail', ['event' => $event]);
+    }
+
+    public function manage(Event $event) {
+        return view('event.manage', ['event' => $event]);
     }
 
     public function createForm() {
