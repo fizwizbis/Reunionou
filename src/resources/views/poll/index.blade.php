@@ -5,7 +5,7 @@
         <br>
     @endforeach
 
-    @if(empty($polls) && !$event->isAuthor())
+    @if($polls->count() === 0 && !$event->isAuthor())
         Aucuns sondages
     @endif
 
