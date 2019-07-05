@@ -47,7 +47,10 @@ class PollController extends Controller
     {
         $votes = [];
         $poll->answers()->each(function (Answer $a) use (&$votes) {
-            if (!empty($a->votes()->get()->toArray())) {
+            $answerVotes = $a->votes()
+                ->where('user_id', Auth::id())
+                ->get()->toArray();
+            if (!empty($answerVotes)) {
                 $votes[] = $a->id;
             }
         });
